@@ -1,0 +1,18 @@
+// Precisa fazer a migração do banco de dados
+    - Criacao da variavel com a string de conexao do banco de dados
+        export DB_URL='postgres://postgres:postgres@localhost:5434/postgres?sslmode=disable'
+    
+    - Comando para fazer a migração do banco de dados
+        migrate -database $DB_URL -path ./migrations -verbose up
+
+// Portas utilizadas nos servidores
+    - Web: 8004
+    - gRPC: 50051
+    - GraphQL: 8082
+
+// Servidor gRPC
+    - Comando para listar os pedidos
+    -grpcurl -plaintext -d '{}' localhost:50051 pb.OrderService.ListOrders
+
+    - Comando para criar um pedido
+    -grpcurl -plaintext -d '{"id": "1234", "price": 100.5, "tax": 5}' localhost:50051 pb.OrderService.CreateOrder
