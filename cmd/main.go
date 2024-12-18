@@ -37,6 +37,18 @@ func main() {
 	fmt.Println("Conectado ao banco de dados")
 	defer db.Close()
 
+	//Criar a tabela de pedidos se ela não existir
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS orders (
+		id UUID PRIMARY KEY,
+		price FLOAT,
+		tax FLOAT,
+		final_price FLOAT,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	)`)
+	if err != nil {
+		panic(err)
+	}
+
 	//Conectar com o RabbitMQ
 	channel, err := rabbitmq.OpenChannelConnection("clean_architecture", "input", &rabbitmq.RabbitMQ{Config: config})
 	if err != nil {
